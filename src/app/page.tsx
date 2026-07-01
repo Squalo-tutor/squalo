@@ -1,22 +1,39 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import Bubbles from "@/components/landing/Bubbles";
+import ChatOverlay from "@/components/landing/ChatOverlay";
+import DoodleCharacter, { DoodlePosition } from "@/components/landing/DoodleCharacter";
 import IntroOverlay from "@/components/landing/IntroOverlay";
 import LogoBadge from "@/components/landing/LogoBadge";
 import SharkMascot from "@/components/landing/SharkMascot";
 import SpeechBubble from "@/components/landing/SpeechBubble";
 import WaveLayer from "@/components/landing/WaveLayer";
 
+const DOODLE_POSITIONS: DoodlePosition[] = ["left", "bottom", "right", "top"];
+
 export default function Home() {
   const [introDone, setIntroDone] = useState(false);
   const [talking, setTalking] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
+  const [doodleIndex, setDoodleIndex] = useState(0);
+  const [doodleVisible, setDoodleVisible] = useState(false);
 
   const handleLineChange = useCallback(() => {
     setTalking(true);
     setTimeout(() => setTalking(false), 900);
   }, []);
+
+  useEffect(() => {
+    if (!introDone) return;
+    const id = setInterval(() => {
+      setDoodleIndex((i) => (i + 1) % DOODLE_POSITIONS.length);
+      setDoodleVisible(true);
+      setTimeout(() => setDoodleVisible(false), 3200);
+    }, 10000);
+    return () => clearInterval(id);
+  }, [introDone]);
 
   return (
     <div className="relative flex min-h-screen flex-1 flex-col overflow-hidden bg-gradient-to-b from-[#06B6D4] to-[#0891b2]">
@@ -41,7 +58,13 @@ export default function Home() {
 
         <div className="flex flex-col items-center">
           <SpeechBubble onLineChange={handleLineChange} className="mb-2" />
-          <SharkMascot size={170} talking={talking} />
+          <button
+            onClick={() => setChatOpen(true)}
+            aria-label="Parla con Squalo"
+            className="cursor-pointer"
+          >
+            <SharkMascot size={170} talking={talking} />
+          </button>
         </div>
 
         <div className="flex flex-col gap-4 sm:flex-row">
@@ -61,6 +84,8 @@ export default function Home() {
       </main>
 
       {!introDone && <IntroOverlay onDone={() => setIntroDone(true)} />}
+      <DoodleCharacter position={DOODLE_POSITIONS[doodleIndex]} visible={doodleVisible} />
+      <ChatOverlay open={chatOpen} onClose={() => setChatOpen(false)} />
     </div>
   );
 }
