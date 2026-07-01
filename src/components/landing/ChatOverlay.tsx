@@ -14,6 +14,21 @@ type ChatOverlayProps = {
   onClose: () => void;
 };
 
+const FUNNY_ERRORS = [
+  "Ho la bocca piena di plancton, un secondo... 🐟 Riprova tra poco!",
+  "Segnale debole qui sott'acqua, puoi ripetere?",
+  "Uh oh, ho sbattuto contro uno scoglio. Riprova!",
+  "Sto nuotando troppo veloce per rispondere, aspetta un attimo!",
+  "Le onde stanno disturbando la linea... riprova tra poco!",
+  "Anche gli squali hanno le loro giornate no. Riprova!",
+  "Mmm, non ti ho sentito bene tra le bolle. Ridimmelo?",
+  "Un polpo mi ha rubato la connessione. Un secondo!",
+];
+
+function randomFunnyError() {
+  return FUNNY_ERRORS[Math.floor(Math.random() * FUNNY_ERRORS.length)];
+}
+
 export default function ChatOverlay({ open, onClose }: ChatOverlayProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([
     { role: "assistant", content: "Ciao! Sono Squalo 🦈 Chiedimi quello che vuoi, ci sono!" },
@@ -40,15 +55,16 @@ export default function ChatOverlay({ open, onClose }: ChatOverlayProps) {
         body: JSON.stringify({ messages: nextMessages }),
       });
       const data = await res.json();
+      if (data.error) {
+        console.error("Chat API error:", data.error);
+      }
       setMessages([
         ...nextMessages,
-        { role: "assistant", content: data.text ?? data.error ?? "Qualcosa non ha funzionato." },
+        { role: "assistant", content: data.text ?? randomFunnyError() },
       ]);
-    } catch {
-      setMessages([
-        ...nextMessages,
-        { role: "assistant", content: "Non riesco a rispondere ora, riprova tra poco." },
-      ]);
+    } catch (err) {
+      console.error("Chat network error:", err);
+      setMessages([...nextMessages, { role: "assistant", content: randomFunnyError() }]);
     } finally {
       setLoading(false);
     }
@@ -105,6 +121,11 @@ export default function ChatOverlay({ open, onClose }: ChatOverlayProps) {
                   Sto pensando…
                 </div>
               )}
+            </div>
+
+            <div className="border-t border-black/5 bg-cyan-50/60 px-4 py-2 text-center text-xs text-[#0A2027]/70">
+              🐬 Presto: con <span className="font-bold">Squalo Premium</span> avrai priorità nelle
+              richieste ai tutor migliori, chat senza limiti e potrai anche mandare foto.
             </div>
 
             <div className="flex items-center gap-2 border-t border-black/5 p-3">
