@@ -1,10 +1,13 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, type TargetAndTransition } from "framer-motion";
 
 export type DoodlePosition = "left" | "right" | "bottom" | "top";
 
-const VARIANTS: Record<DoodlePosition, { hidden: object; visible: object; wrapper: string }> = {
+const VARIANTS: Record<
+  DoodlePosition,
+  { hidden: TargetAndTransition; visible: TargetAndTransition; wrapper: string }
+> = {
   left: {
     hidden: { x: -70, opacity: 0 },
     visible: { x: 0, opacity: 1 },
