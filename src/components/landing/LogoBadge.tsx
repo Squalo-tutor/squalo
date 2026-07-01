@@ -1,0 +1,37 @@
+type LogoBadgeProps = {
+  size?: number;
+  className?: string;
+};
+
+export default function LogoBadge({ size = 40, className = "" }: LogoBadgeProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 100 100"
+      className={className}
+      aria-hidden
+    >
+      <defs>
+        <linearGradient id="badgeBg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#22D3EE" />
+          <stop offset="100%" stopColor="#0E7490" />
+        </linearGradient>
+      </defs>
+      <rect width="100" height="100" rx="24" fill="url(#badgeBg)" />
+      <path d="M46 20 L58 46 L36 46 Z" fill="#bcdce7" opacity="0.85" />
+      <ellipse cx="48" cy="58" rx="32" ry="20" fill="#eaf6fb" />
+      <circle cx="35" cy="53" r="5.5" fill="#0A2027" />
+      <circle cx="37" cy="51" r="2" fill="white" />
+      <path
+        d="M26 60 Q48 74 70 58"
+        stroke="#0A2027"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        fill="none"
+      />
+      <path d="M40 66 L44 61 L46 67 Z" fill="white" />
+      <path d="M47 67 L50 61 L54 66 Z" fill="white" />
+    </svg>
+  );
+}
