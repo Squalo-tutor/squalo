@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import RouteWaveTransition from "@/components/RouteWaveTransition";
 import "./globals.css";
 
 const poppins = localFont({
@@ -30,7 +31,10 @@ export default function RootLayout({
       lang="it"
       className={`${poppins.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <RouteWaveTransition />
+        {children}
+      </body>
     </html>
   );
 }

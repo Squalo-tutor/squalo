@@ -83,7 +83,7 @@ export default function RegistrazioneTutorPage() {
         </Link>
       </div>
 
-      <div className="mx-auto max-w-md rounded-3xl bg-white p-6 shadow-xl">
+      <div className="mx-auto max-w-md rounded-3xl border border-white/40 bg-white/75 p-6 shadow-2xl backdrop-blur-xl">
         {step === "form" && (
           <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             <h1 className="font-heading text-2xl font-extrabold text-[#0A2027]">

@@ -15,7 +15,7 @@ export default function StudenteLayout({ children }: { children: React.ReactNode
   return (
     <div className="flex h-dvh flex-col">
       <div className="min-h-0 flex-1">{children}</div>
-      <nav className="flex flex-shrink-0 border-t border-black/5 bg-white pb-[env(safe-area-inset-bottom)]">
+      <nav className="flex flex-shrink-0 border-t border-white/40 bg-white/70 pb-[env(safe-area-inset-bottom)] shadow-[0_-4px_24px_rgba(10,32,39,0.08)] backdrop-blur-xl">
         {TABS.map((tab) => {
           const active = pathname.startsWith(tab.href);
           return (

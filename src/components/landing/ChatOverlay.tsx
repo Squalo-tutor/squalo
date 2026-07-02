@@ -86,9 +86,9 @@ export default function ChatOverlay({ open, onClose }: ChatOverlayProps) {
             exit={{ y: 40, opacity: 0 }}
             transition={{ duration: 0.3 }}
             onClick={(e) => e.stopPropagation()}
-            className="flex h-[80vh] w-full max-w-sm flex-col overflow-hidden rounded-t-3xl bg-white shadow-2xl sm:h-[560px] sm:rounded-3xl"
+            className="flex h-[80vh] w-full max-w-sm flex-col overflow-hidden rounded-t-3xl border border-white/40 bg-white/80 shadow-2xl backdrop-blur-2xl sm:h-[560px] sm:rounded-3xl"
           >
-            <div className="flex items-center gap-3 bg-[#06B6D4] px-4 py-3">
+            <div className="flex items-center gap-3 border-b border-white/30 bg-[#06B6D4]/85 px-4 py-3 backdrop-blur-md">
               <SharkMascot size={44} talking={loading} />
               <div className="flex-1">
                 <p className="font-heading font-bold text-white">Squalo</p>
