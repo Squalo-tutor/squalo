@@ -107,11 +107,12 @@ export default function MessaggiPage() {
         </div>
       ) : (
         <div className="flex flex-col p-2">
-          {rows.map(({ conversation, other, lastMessage }) => (
+          {rows.map(({ conversation, other, lastMessage }, i) => (
             <Link
               key={conversation.id}
               href={`/studente/messaggi/${conversation.id}`}
-              className="flex items-center gap-3 rounded-2xl p-3 transition-colors hover:bg-white/70"
+              className="animate-rise flex items-center gap-3 rounded-2xl p-3 transition-colors hover:bg-white/70"
+              style={{ animationDelay: `${Math.min(i, 8) * 40}ms` }}
             >
               <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-full bg-cyan-100">
                 {other?.avatar_url ? (

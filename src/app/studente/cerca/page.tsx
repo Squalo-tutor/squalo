@@ -215,8 +215,14 @@ export default function CercaPage() {
               </p>
             ) : (
               <div className="flex flex-col gap-2">
-                {sorted.map(({ tutor, distance }) => (
-                  <TutorCard key={tutor.id} tutor={tutor} distanceKm={distance} />
+                {sorted.map(({ tutor, distance }, i) => (
+                  <div
+                    key={tutor.id}
+                    className="animate-rise"
+                    style={{ animationDelay: `${Math.min(i, 8) * 40}ms` }}
+                  >
+                    <TutorCard tutor={tutor} distanceKm={distance} />
+                  </div>
                 ))}
               </div>
             )}
