@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import LogoBadge from "@/components/landing/LogoBadge";
 import ChipSelect from "@/components/registrazione/ChipSelect";
+import LocationPicker from "@/components/registrazione/LocationPicker";
 import { createClient } from "@/lib/supabase/client";
 import { SUBJECTS, DAYS, TIME_SLOTS } from "@/lib/constants";
 import { fileToBase64, savePendingRegistration } from "@/lib/pendingRegistration";
@@ -18,6 +19,7 @@ export default function RegistrazioneTutorPage() {
   const [photo, setPhoto] = useState<File | null>(null);
   const [subjects, setSubjects] = useState<string[]>([]);
   const [address, setAddress] = useState("");
+  const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
   const [days, setDays] = useState<string[]>([]);
   const [timeSlots, setTimeSlots] = useState<string[]>([]);
   const [price, setPrice] = useState("");
@@ -43,6 +45,8 @@ export default function RegistrazioneTutorPage() {
           : undefined,
         subjects,
         address,
+        latitude: coords?.lat ?? null,
+        longitude: coords?.lng ?? null,
         days,
         timeSlots,
         price,
@@ -133,18 +137,12 @@ export default function RegistrazioneTutorPage() {
               <ChipSelect options={SUBJECTS} selected={subjects} onChange={setSubjects} />
             </div>
 
-            <label className="flex flex-col gap-1 text-sm font-medium text-[#0A2027]">
-              Dove fai ripetizioni (indirizzo o zona)
-              <input
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                className="rounded-xl border border-black/10 px-4 py-2.5 outline-none focus:border-[#06B6D4]"
-                placeholder="Via Roma 10, Udine"
-              />
-              <span className="text-xs font-normal text-[#0A2027]/50">
-                Nel prossimo passo aggiungiamo anche la posizione GPS sulla mappa.
-              </span>
-            </label>
+            <LocationPicker
+              address={address}
+              onAddressChange={setAddress}
+              coords={coords}
+              onCoordsChange={setCoords}
+            />
 
             <div className="flex flex-col gap-1.5">
               <span className="text-sm font-medium text-[#0A2027]">Giorni disponibili</span>

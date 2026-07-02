@@ -16,6 +16,8 @@ export type PendingRegistration =
       photo?: PhotoData;
       subjects: string[];
       address: string;
+      latitude: number | null;
+      longitude: number | null;
       days: string[];
       timeSlots: string[];
       price: string;

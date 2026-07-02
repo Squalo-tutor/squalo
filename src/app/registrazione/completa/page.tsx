@@ -66,6 +66,8 @@ export default function RegistrazioneCompletaPage() {
           profile_id: user.id,
           subjects: pending.subjects,
           address: pending.address,
+          latitude: pending.latitude,
+          longitude: pending.longitude,
           days: pending.days,
           time_slots: pending.timeSlots,
           price_per_hour: Number(pending.price),
