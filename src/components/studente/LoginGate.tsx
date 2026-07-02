@@ -5,7 +5,13 @@ import { createClient } from "@/lib/supabase/client";
 
 // Login "leggero" via link magico. Usato dove serve essere collegati
 // (es. i messaggi) ma l'utente non lo è ancora.
-export default function LoginGate({ next }: { next: string }) {
+export default function LoginGate({
+  next,
+  title = "Accedi per i messaggi",
+}: {
+  next: string;
+  title?: string;
+}) {
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -52,7 +58,7 @@ export default function LoginGate({ next }: { next: string }) {
         ) : (
           <form onSubmit={submit} className="flex flex-col gap-3">
             <span className="text-4xl">🦈</span>
-            <h1 className="font-heading text-xl font-bold text-[#0A2027]">Accedi per i messaggi</h1>
+            <h1 className="font-heading text-xl font-bold text-[#0A2027]">{title}</h1>
             <p className="text-sm text-[#0A2027]/60">Inserisci la tua email: ti mandiamo un link.</p>
             <input
               type="email"

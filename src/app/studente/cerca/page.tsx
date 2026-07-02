@@ -7,6 +7,7 @@ import { distanceKm, geocodeSearch, type GeocodeResult } from "@/lib/geo";
 import { SUBJECTS } from "@/lib/constants";
 import ChipSelect from "@/components/registrazione/ChipSelect";
 import TutorCard from "@/components/studente/TutorCard";
+import TutorFeed from "@/components/studente/TutorFeed";
 import type { TutorPublic } from "@/lib/types";
 
 const MapView = dynamic(() => import("@/components/studente/MapView"), { ssr: false });
@@ -16,7 +17,7 @@ const ITALY_CENTER: [number, number] = [42.5, 12.5];
 export default function CercaPage() {
   const [tutors, setTutors] = useState<TutorPublic[]>([]);
   const [loading, setLoading] = useState(true);
-  const [view, setView] = useState<"map" | "list">("map");
+  const [view, setView] = useState<"map" | "list" | "feed">("map");
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
   const [showFilters, setShowFilters] = useState(false);
 
@@ -181,6 +182,14 @@ export default function CercaPage() {
             >
               Lista
             </button>
+            <button
+              onClick={() => setView("feed")}
+              className={`rounded-full px-3 py-1.5 font-semibold ${
+                view === "feed" ? "bg-white shadow-sm text-[#0A2027]" : "text-[#0A2027]/60"
+              }`}
+            >
+              ✨ Sfoglia
+            </button>
           </div>
         </div>
         {locError && <p className="text-xs text-red-500">{locError}</p>}
@@ -191,6 +200,8 @@ export default function CercaPage() {
           <div className="flex h-full items-center justify-center text-[#0A2027]/50">
             Carico i tutor…
           </div>
+        ) : view === "feed" ? (
+          <TutorFeed items={sorted} />
         ) : view === "map" ? (
           <>
             <MapView pins={pins} center={ITALY_CENTER} zoom={5} onSelect={handlePinSelect} flyTo={flyTo} />
