@@ -3,13 +3,12 @@
 import { useState } from "react";
 import Link from "next/link";
 import LogoBadge from "@/components/landing/LogoBadge";
-import StatusBadge from "@/components/StatusBadge";
-import OtpStep from "@/components/registrazione/OtpStep";
 import ChipSelect from "@/components/registrazione/ChipSelect";
 import { createClient } from "@/lib/supabase/client";
 import { SUBJECTS, DAYS, TIME_SLOTS } from "@/lib/constants";
+import { fileToBase64, savePendingRegistration } from "@/lib/pendingRegistration";
 
-type Step = "form" | "otp" | "done";
+type Step = "form" | "sent";
 
 export default function RegistrazioneTutorPage() {
   const [step, setStep] = useState<Step>("form");
@@ -35,65 +34,40 @@ export default function RegistrazioneTutorPage() {
     }
     setLoading(true);
     try {
+      savePendingRegistration({
+        userType: "tutor",
+        fullName,
+        whatsapp,
+        photo: photo
+          ? { name: photo.name, type: photo.type, base64: await fileToBase64(photo) }
+          : undefined,
+        subjects,
+        address,
+        days,
+        timeSlots,
+        price,
+        bio,
+      });
+
       const supabase = createClient();
       const { error } = await supabase.auth.signInWithOtp({
         email,
-        options: { shouldCreateUser: true },
+        options: {
+          shouldCreateUser: true,
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        },
       });
       if (error) {
-        setError(`Non riesco a inviare il codice: ${error.message}`);
+        setError(`Non riesco a inviare l'email: ${error.message}`);
         return;
       }
-      setStep("otp");
+      setStep("sent");
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
       setError(`Errore imprevisto: ${message}`);
     } finally {
       setLoading(false);
     }
-  }
-
-  async function handleVerified(userId: string) {
-    setLoading(true);
-    setError(null);
-    const supabase = createClient();
-
-    let avatarUrl: string | null = null;
-    if (photo) {
-      const ext = photo.name.split(".").pop();
-      const path = `${userId}/avatar.${ext}`;
-      const { error: uploadError } = await supabase.storage
-        .from("avatars")
-        .upload(path, photo, { upsert: true });
-      if (!uploadError) {
-        avatarUrl = supabase.storage.from("avatars").getPublicUrl(path).data.publicUrl;
-      }
-    }
-
-    const { error: profileError } = await supabase.from("profiles").insert({
-      id: userId,
-      user_type: "tutor",
-      full_name: fullName,
-      avatar_url: avatarUrl,
-    });
-
-    const { error: detailsError } = await supabase.from("tutor_details").insert({
-      profile_id: userId,
-      subjects,
-      address,
-      days,
-      time_slots: timeSlots,
-      price_per_hour: Number(price),
-      bio: bio || null,
-      whatsapp: whatsapp || null,
-    });
-
-    setLoading(false);
-    if (profileError || detailsError) {
-      setError("Registrazione quasi completa, ma il profilo non si è salvato. Riprova.");
-      return;
-    }
-    setStep("done");
   }
 
   return (
@@ -216,32 +190,15 @@ export default function RegistrazioneTutorPage() {
           </form>
         )}
 
-        {step === "otp" && (
-          <div className="flex flex-col gap-4">
-            <h1 className="font-heading text-2xl font-extrabold text-[#0A2027]">
-              Conferma la tua email
-            </h1>
-            <OtpStep email={email} onVerified={handleVerified} />
-            {error && <p className="text-sm text-red-500">{error}</p>}
-          </div>
-        )}
-
-        {step === "done" && (
+        {step === "sent" && (
           <div className="flex flex-col items-center gap-4 text-center">
             <h1 className="font-heading text-2xl font-extrabold text-[#0A2027]">
-              Benvenuto/a, {fullName}! 🦈
+              Controlla la tua email 📩
             </h1>
-            <StatusBadge status="in_verifica" />
             <p className="text-sm text-[#0A2027]/70">
-              Il tuo profilo è stato creato ed è in fase di verifica. Ti avviseremo appena sarà
-              approvato e visibile agli studenti.
+              Ti abbiamo mandato un&apos;email a <span className="font-semibold">{email}</span>.
+              Apri il messaggio e clicca il link per confermare (controlla anche lo spam).
             </p>
-            <Link
-              href="/"
-              className="rounded-full bg-[#0A2027] px-6 py-3 font-heading font-bold text-white"
-            >
-              Torna alla home
-            </Link>
           </div>
         )}
       </div>
