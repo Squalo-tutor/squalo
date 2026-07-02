@@ -54,33 +54,43 @@ export default function RegistrazioneCompletaPage() {
           }
         }
 
-        const { error: profileError } = await supabase.from("profiles").insert({
-          id: user.id,
-          user_type: pendingRegistration.userType,
-          full_name: pendingRegistration.fullName,
-          phone: pendingRegistration.userType === "studente" ? pendingRegistration.phone || null : null,
-          avatar_url: avatarUrl,
-        });
+        const { error: profileError } = await supabase.from("profiles").upsert(
+          {
+            id: user.id,
+            user_type: pendingRegistration.userType,
+            full_name: pendingRegistration.fullName,
+            phone:
+              pendingRegistration.userType === "studente" ? pendingRegistration.phone || null : null,
+            avatar_url: avatarUrl,
+          },
+          { onConflict: "id" }
+        );
 
         let detailsError = null;
         if (pendingRegistration.userType === "tutor") {
-          const res = await supabase.from("tutor_details").insert({
-            profile_id: user.id,
-            subjects: pendingRegistration.subjects,
-            address: pendingRegistration.address,
-            latitude: pendingRegistration.latitude,
-            longitude: pendingRegistration.longitude,
-            days: pendingRegistration.days,
-            time_slots: pendingRegistration.timeSlots,
-            price_per_hour: Number(pendingRegistration.price),
-            bio: pendingRegistration.bio || null,
-            whatsapp: pendingRegistration.whatsapp || null,
-          });
+          const res = await supabase.from("tutor_details").upsert(
+            {
+              profile_id: user.id,
+              subjects: pendingRegistration.subjects,
+              address: pendingRegistration.address?.trim() || null,
+              latitude: pendingRegistration.latitude,
+              longitude: pendingRegistration.longitude,
+              days: pendingRegistration.days,
+              time_slots: pendingRegistration.timeSlots,
+              price_per_hour: Number(pendingRegistration.price),
+              bio: pendingRegistration.bio || null,
+              whatsapp: pendingRegistration.whatsapp || null,
+            },
+            { onConflict: "profile_id" }
+          );
           detailsError = res.error;
         }
 
         if (profileError || detailsError) {
-          setErrorMsg("Account confermato, ma il profilo non si è salvato. Riprova la registrazione.");
+          const detail = profileError?.message ?? detailsError?.message ?? "";
+          setErrorMsg(
+            `Account confermato, ma il profilo non si è salvato${detail ? `: ${detail}` : "."}`
+          );
           setState("error");
           return;
         }

@@ -30,8 +30,12 @@ export default function RegistrazioneTutorPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
-    if (!fullName.trim() || !email.trim() || subjects.length === 0 || !address.trim() || !price) {
-      setError("Nome, email, almeno una materia, luogo e prezzo sono obbligatori.");
+    if (!fullName.trim() || !email.trim() || subjects.length === 0 || !price) {
+      setError("Nome, email, almeno una materia e prezzo sono obbligatori.");
+      return;
+    }
+    if (!address.trim() && !coords) {
+      setError("Indica dove fai ripetizioni: scrivi l'indirizzo o usa il tasto posizione.");
       return;
     }
     setLoading(true);
