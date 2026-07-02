@@ -26,17 +26,23 @@ export default function RegistrazioneStudentePage() {
       return;
     }
     setLoading(true);
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: { shouldCreateUser: true },
-    });
-    setLoading(false);
-    if (error) {
-      setError("Non riesco a inviare il codice. Controlla l'email e riprova.");
-      return;
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: { shouldCreateUser: true },
+      });
+      if (error) {
+        setError(`Non riesco a inviare il codice: ${error.message}`);
+        return;
+      }
+      setStep("otp");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      setError(`Errore imprevisto: ${message}`);
+    } finally {
+      setLoading(false);
     }
-    setStep("otp");
   }
 
   async function handleVerified(userId: string) {
