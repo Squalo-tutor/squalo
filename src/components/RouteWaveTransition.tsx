@@ -4,11 +4,25 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 
-const BUBBLES = Array.from({ length: 14 }, (_, i) => ({
-  left: (i * 29 + 7) % 100,
-  size: 6 + (i % 5) * 4,
-  delay: (i % 7) * 0.05,
-  duration: 0.55 + (i % 4) * 0.12,
+// Bolle sparse su tutto lo schermo: salgono dal basso "invadendo" la vista
+// (stile cartone animato) e poi si ritirano scoprendo la nuova pagina.
+const BUBBLES = Array.from({ length: 30 }, (_, i) => {
+  const left = (i * 53 + 11) % 100;
+  const top = (i * 71 + 7) % 100;
+  const size = 12 + ((i * 7) % 22); // vmax
+  const dx = left - 50;
+  const dy = 100 - top;
+  const dist = Math.sqrt(dx * dx + dy * dy);
+  const delay = (dist / 160) * 0.28;
+  return { left, top, size, delay };
+});
+
+// Bollicine decorative più piccole che continuano a salire.
+const FIZZ = Array.from({ length: 16 }, (_, i) => ({
+  left: (i * 29 + 5) % 100,
+  size: 5 + (i % 5) * 4,
+  delay: 0.15 + (i % 8) * 0.04,
+  duration: 0.6 + (i % 4) * 0.15,
 }));
 
 export default function RouteWaveTransition() {
@@ -22,7 +36,7 @@ export default function RouteWaveTransition() {
       return;
     }
     setPlaying(true);
-    const timeout = setTimeout(() => setPlaying(false), 780);
+    const timeout = setTimeout(() => setPlaying(false), 900);
     return () => clearTimeout(timeout);
   }, [pathname]);
 
@@ -30,52 +44,57 @@ export default function RouteWaveTransition() {
     <AnimatePresence>
       {playing && (
         <motion.div
-          key="route-wave"
+          key="route-bubbles"
           data-testid="route-wave"
-          className="pointer-events-none fixed inset-0 z-[200] flex flex-col"
-          initial={{ y: "100%" }}
-          animate={{ y: ["100%", "0%", "0%", "-100%"] }}
-          exit={{ opacity: 0, transition: { duration: 0.1 } }}
-          transition={{ duration: 0.78, times: [0, 0.34, 0.55, 1], ease: [0.65, 0, 0.35, 1] }}
+          className="pointer-events-none fixed inset-0 z-[200] overflow-hidden"
+          initial={{ opacity: 1 }}
+          exit={{ opacity: 0, transition: { duration: 0.12 } }}
         >
-          {/* onda di fondo (più chiara, sfalsata) per dare profondità */}
-          <svg
-            className="absolute inset-x-0 top-0 -mt-6 h-16 w-full md:h-24"
-            viewBox="0 0 1440 200"
-            preserveAspectRatio="none"
-          >
-            <path
-              d="M0,110 C220,40 420,180 680,110 C920,50 1140,180 1440,100 L1440,200 L0,200 Z"
-              fill="#22D3EE"
-              opacity="0.55"
-            />
-          </svg>
+          {/* riempimento cyan che garantisce la copertura totale a metà transizione */}
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-b from-[#22D3EE] to-[#0891b2]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: [0, 1, 1, 0] }}
+            transition={{ duration: 0.9, times: [0, 0.34, 0.6, 1], ease: "easeInOut" }}
+          />
 
-          {/* onda principale */}
-          <svg
-            className="-mb-px h-16 w-full flex-shrink-0 md:h-24"
-            viewBox="0 0 1440 200"
-            preserveAspectRatio="none"
-          >
-            <path
-              d="M0,90 C180,190 360,10 540,90 C720,190 900,10 1080,90 C1260,190 1440,10 1440,90 L1440,200 L0,200 Z"
-              fill="#06B6D4"
+          {/* bolle grandi che invadono e poi si ritirano */}
+          {BUBBLES.map((b, i) => (
+            <motion.span
+              key={i}
+              className="absolute rounded-full"
+              style={{
+                left: `${b.left}%`,
+                top: `${b.top}%`,
+                width: `${b.size}vmax`,
+                height: `${b.size}vmax`,
+                translate: "-50% -50%",
+                background:
+                  "radial-gradient(circle at 35% 30%, rgba(255,255,255,0.55), rgba(34,211,238,0.95) 45%, #0891b2 100%)",
+                boxShadow: "inset 0 0 12px rgba(255,255,255,0.4)",
+              }}
+              initial={{ scale: 0, y: 60, opacity: 0 }}
+              animate={{ scale: [0, 1.25, 1.25, 0], y: [60, 0, 0, -40], opacity: [0, 1, 1, 0] }}
+              transition={{
+                duration: 0.9,
+                delay: b.delay,
+                times: [0, 0.4, 0.62, 1],
+                ease: "easeInOut",
+              }}
             />
-          </svg>
+          ))}
 
-          {/* corpo dell'acqua con bolle che salgono */}
-          <div className="relative flex-1 overflow-hidden bg-gradient-to-b from-[#06B6D4] to-[#0891b2]">
-            {BUBBLES.map((b, i) => (
-              <motion.span
-                key={i}
-                className="absolute rounded-full bg-white/45"
-                style={{ left: `${b.left}%`, width: b.size, height: b.size, bottom: -20 }}
-                initial={{ y: 0, opacity: 0 }}
-                animate={{ y: "-115vh", opacity: [0, 0.7, 0] }}
-                transition={{ duration: b.duration + 0.5, delay: 0.2 + b.delay, ease: "easeOut" }}
-              />
-            ))}
-          </div>
+          {/* bollicine frizzanti */}
+          {FIZZ.map((f, i) => (
+            <motion.span
+              key={`f-${i}`}
+              className="absolute rounded-full border border-white/50 bg-white/30"
+              style={{ left: `${f.left}%`, width: f.size, height: f.size, bottom: -20 }}
+              initial={{ y: 0, opacity: 0 }}
+              animate={{ y: "-110vh", opacity: [0, 0.8, 0] }}
+              transition={{ duration: f.duration + 0.5, delay: f.delay, ease: "easeOut" }}
+            />
+          ))}
         </motion.div>
       )}
     </AnimatePresence>

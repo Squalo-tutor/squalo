@@ -177,13 +177,13 @@ export default function RegistrazioneCompletaPage() {
             </h1>
             <p className="text-sm text-[#0A2027]/70">
               {tutorName ? `${tutorName} riceverà` : "Il tutor riceverà"} la tua richiesta con tutti
-              i dettagli.
+              i dettagli. Continua a scrivergli dai messaggi.
             </p>
             <Link
-              href="/studente/cerca"
+              href="/studente/messaggi"
               className="rounded-full bg-[#0A2027] px-6 py-3 font-heading font-bold text-white"
             >
-              Torna alla ricerca
+              Vai ai messaggi
             </Link>
           </div>
         )}

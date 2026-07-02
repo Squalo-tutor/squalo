@@ -9,9 +9,14 @@ export default function ChatFab() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  // Sulla home c'è già lo squaletto grande al centro: lì il bottino flottante
-  // sarebbe ridondante, quindi lo nascondiamo.
-  const hidden = pathname === "/" || pathname.startsWith("/registrazione") || pathname.startsWith("/auth");
+  // Sulla home c'è già lo squaletto grande al centro; nel thread di una chat
+  // coprirebbe la casella di scrittura. In quei casi lo nascondiamo.
+  const inThread = /^\/studente\/messaggi\/.+/.test(pathname);
+  const hidden =
+    pathname === "/" ||
+    pathname.startsWith("/registrazione") ||
+    pathname.startsWith("/auth") ||
+    inThread;
 
   // Se siamo nell'area studente c'è la barra in basso: alziamo il bottone
   // così non ci finisce sopra.

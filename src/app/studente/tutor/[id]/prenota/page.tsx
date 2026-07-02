@@ -29,6 +29,7 @@ export default function PrenotaPage({ params }: { params: Promise<{ id: string }
   const [needsAuth, setNeedsAuth] = useState(false);
   const [studentName, setStudentName] = useState("");
   const [email, setEmail] = useState("");
+  const [conversationId, setConversationId] = useState<string | null>(null);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -131,6 +132,7 @@ export default function PrenotaPage({ params }: { params: Promise<{ id: string }
         return;
       }
 
+      setConversationId(conversation.id);
       setStep("done");
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
@@ -314,14 +316,14 @@ export default function PrenotaPage({ params }: { params: Promise<{ id: string }
           <div className="flex flex-col items-center gap-4 text-center">
             <h1 className="font-heading text-2xl font-extrabold text-[#0A2027]">Richiesta inviata! 🦈</h1>
             <p className="text-sm text-[#0A2027]/70">
-              {tutor.full_name} riceverà la tua richiesta con tutti i dettagli. La chat completa
-              arriva nella prossima tappa.
+              {tutor.full_name} riceverà la tua richiesta con tutti i dettagli. Continua a
+              scrivergli nella chat.
             </p>
             <Link
-              href="/studente/cerca"
+              href={conversationId ? `/studente/messaggi/${conversationId}` : "/studente/messaggi"}
               className="rounded-full bg-[#0A2027] px-6 py-3 font-heading font-bold text-white"
             >
-              Torna alla ricerca
+              Vai alla chat
             </Link>
           </div>
         )}
