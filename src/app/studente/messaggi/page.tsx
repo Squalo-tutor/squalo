@@ -91,7 +91,7 @@ export default function MessaggiPage() {
 
   return (
     <div className="h-full overflow-y-auto bg-gradient-to-b from-cyan-50 to-white">
-      <div className="sticky top-0 z-10 border-b border-white/40 bg-white/70 px-4 py-3 backdrop-blur-xl">
+      <div className="glass-cyan sticky top-0 z-10 px-4 py-3">
         <h1 className="font-heading text-xl font-extrabold text-[#0A2027]">Messaggi</h1>
       </div>
 

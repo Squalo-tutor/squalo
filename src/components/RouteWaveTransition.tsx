@@ -36,7 +36,7 @@ export default function RouteWaveTransition() {
       return;
     }
     setPlaying(true);
-    const timeout = setTimeout(() => setPlaying(false), 900);
+    const timeout = setTimeout(() => setPlaying(false), 1000);
     return () => clearTimeout(timeout);
   }, [pathname]);
 
@@ -50,12 +50,13 @@ export default function RouteWaveTransition() {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.12 } }}
         >
-          {/* riempimento cyan che garantisce la copertura totale a metà transizione */}
+          {/* riempimento cyan opaco SUBITO: nasconde la pagina nuova finché
+              l'animazione non finisce, poi si scopre solo alla fine */}
           <motion.div
             className="absolute inset-0 bg-gradient-to-b from-[#22D3EE] to-[#0891b2]"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: [0, 1, 1, 0] }}
-            transition={{ duration: 0.9, times: [0, 0.34, 0.6, 1], ease: "easeInOut" }}
+            initial={{ opacity: 1 }}
+            animate={{ opacity: [1, 1, 1, 0] }}
+            transition={{ duration: 1, times: [0, 0.5, 0.66, 1], ease: "easeInOut" }}
           />
 
           {/* bolle grandi che invadono e poi si ritirano */}

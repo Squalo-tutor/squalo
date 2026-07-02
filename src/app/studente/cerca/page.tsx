@@ -120,7 +120,7 @@ export default function CercaPage() {
 
   return (
     <div className="flex h-full flex-col bg-gradient-to-b from-cyan-50 to-white">
-      <div className="z-10 flex flex-col gap-2 rounded-b-3xl border-b border-white/40 bg-white/70 p-3 shadow-lg backdrop-blur-xl">
+      <div className="glass-cyan z-10 flex flex-col gap-2 rounded-b-3xl p-3">
         <div className="flex gap-2">
           <div className="relative flex-1">
             <input

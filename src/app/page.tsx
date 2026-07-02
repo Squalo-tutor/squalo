@@ -7,6 +7,7 @@ import ChatOverlay from "@/components/landing/ChatOverlay";
 import DoodleCharacter, { DoodlePosition } from "@/components/landing/DoodleCharacter";
 import IntroOverlay from "@/components/landing/IntroOverlay";
 import LogoBadge from "@/components/landing/LogoBadge";
+import SeaLife from "@/components/landing/SeaLife";
 import SharkMascot from "@/components/landing/SharkMascot";
 import SpeechBubble from "@/components/landing/SpeechBubble";
 import WaveLayer from "@/components/landing/WaveLayer";
@@ -37,7 +38,8 @@ export default function Home() {
 
   return (
     <div className="relative flex min-h-screen flex-1 flex-col overflow-hidden bg-gradient-to-b from-[#06B6D4] to-[#0891b2]">
-      <Bubbles count={10} className="opacity-40" />
+      <SeaLife />
+      <Bubbles count={16} className="opacity-40" />
       <WaveLayer className="bottom-0 h-24 md:h-32" fill="white" opacity={0.08} duration={14} />
       <WaveLayer className="bottom-0 h-16 md:h-20" fill="white" opacity={0.14} duration={10} reverse />
 
