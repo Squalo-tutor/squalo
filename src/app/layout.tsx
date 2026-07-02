@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import RouteWaveTransition from "@/components/RouteWaveTransition";
+import ChatFab from "@/components/ChatFab";
 import "./globals.css";
 
 const poppins = localFont({
@@ -34,6 +35,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <RouteWaveTransition />
         {children}
+        <ChatFab />
       </body>
     </html>
   );

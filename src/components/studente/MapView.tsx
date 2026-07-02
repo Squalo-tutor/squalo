@@ -57,5 +57,7 @@ export default function MapView({ pins, center, zoom = 5, onSelect, flyTo }: Map
     }
   }, [flyTo]);
 
-  return <div ref={containerRef} className="h-full w-full" />;
+  // `isolate` crea un contesto di impilamento: i livelli interni di Leaflet
+  // restano contenuti e non coprono i bottoni flottanti (es. lo squaletto chat).
+  return <div ref={containerRef} className="isolate h-full w-full" />;
 }
