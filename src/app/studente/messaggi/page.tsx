@@ -97,7 +97,7 @@ export default function MessaggiPage() {
 
       {rows.length === 0 ? (
         <div className="flex flex-col items-center gap-2 px-6 pt-20 text-center">
-          <span className="text-4xl">💬</span>
+          <span className="animate-pop text-5xl">💬</span>
           <p className="text-sm text-[#0A2027]/60">
             Ancora nessuna conversazione. Prenota un tutor per iniziare a scrivere!
           </p>

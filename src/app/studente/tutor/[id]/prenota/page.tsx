@@ -306,7 +306,8 @@ export default function PrenotaPage({ params }: { params: Promise<{ id: string }
 
         {step === "sent" && (
           <div className="flex flex-col items-center gap-3 text-center">
-            <h1 className="font-heading text-2xl font-extrabold text-[#0A2027]">Controlla la tua email 📬</h1>
+            <span className="animate-pop text-5xl">📬</span>
+            <h1 className="font-heading text-2xl font-extrabold text-[#0A2027]">Controlla la tua email</h1>
             <p className="text-sm text-[#0A2027]/70">
               Ti abbiamo mandato un link a <span className="font-semibold">{email}</span>. Clicca il
               link per confermare e completare la prenotazione.
@@ -316,7 +317,8 @@ export default function PrenotaPage({ params }: { params: Promise<{ id: string }
 
         {step === "done" && (
           <div className="flex flex-col items-center gap-4 text-center">
-            <h1 className="font-heading text-2xl font-extrabold text-[#0A2027]">Richiesta inviata! 🦈</h1>
+            <span className="animate-pop text-5xl">🦈</span>
+            <h1 className="font-heading text-2xl font-extrabold text-[#0A2027]">Richiesta inviata!</h1>
             <p className="text-sm text-[#0A2027]/70">
               {tutor.full_name} riceverà la tua richiesta con tutti i dettagli. Continua a
               scrivergli nella chat.

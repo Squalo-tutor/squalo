@@ -36,7 +36,7 @@ export default function SpeechBubble({ onLineChange, className = "" }: SpeechBub
 
   return (
     <div
-      className={`relative min-w-[220px] max-w-[280px] rounded-2xl bg-white px-5 py-3 shadow-lg ${className}`}
+      className={`relative min-w-[220px] max-w-[280px] rounded-2xl border border-white/60 bg-white/95 px-5 py-3 shadow-[0_10px_30px_rgba(10,32,39,0.18)] backdrop-blur-sm ${className}`}
     >
       <AnimatePresence mode="wait">
         <motion.p

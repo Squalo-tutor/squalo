@@ -48,7 +48,7 @@ export default function AccediPage() {
       <div className="animate-rise relative z-10 w-full max-w-sm rounded-3xl border border-white/40 bg-white/80 p-6 text-center shadow-2xl backdrop-blur-xl">
         {sent ? (
           <>
-            <span className="text-4xl">📬</span>
+            <span className="animate-pop text-5xl">📬</span>
             <h1 className="mt-2 font-heading text-xl font-extrabold text-[#0A2027]">
               Controlla l&apos;email
             </h1>

@@ -132,8 +132,9 @@ export default function RegistrazioneStudentePage() {
 
         {step === "sent" && (
           <div className="flex flex-col items-center gap-4 text-center">
+            <span className="animate-pop text-5xl">📩</span>
             <h1 className="font-heading text-2xl font-extrabold text-[#0A2027]">
-              Controlla la tua email 📩
+              Controlla la tua email
             </h1>
             <p className="text-sm text-[#0A2027]/70">
               Ti abbiamo mandato un&apos;email a <span className="font-semibold">{email}</span>.

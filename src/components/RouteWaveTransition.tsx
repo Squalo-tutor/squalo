@@ -59,6 +59,18 @@ export default function RouteWaveTransition() {
             transition={{ duration: 1, times: [0, 0.5, 0.66, 1], ease: "easeInOut" }}
           />
 
+          {/* bagliore centrale morbido a metà transizione */}
+          <motion.div
+            className="absolute left-1/2 top-1/2 h-[60vmax] w-[60vmax] -translate-x-1/2 -translate-y-1/2 rounded-full"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(255,255,255,0.5), rgba(255,255,255,0) 62%)",
+            }}
+            initial={{ opacity: 0, scale: 0.6 }}
+            animate={{ opacity: [0, 0.7, 0], scale: [0.6, 1.1, 1.3] }}
+            transition={{ duration: 1, times: [0, 0.5, 1], ease: "easeInOut" }}
+          />
+
           {/* bolle grandi che invadono e poi si ritirano */}
           {BUBBLES.map((b, i) => (
             <motion.span
