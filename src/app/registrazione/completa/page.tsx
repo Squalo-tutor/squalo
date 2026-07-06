@@ -19,6 +19,7 @@ export default function RegistrazioneCompletaPage() {
   const [name, setName] = useState("");
   const [tutorName, setTutorName] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [role, setRole] = useState<"studente" | "tutor" | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -36,6 +37,7 @@ export default function RegistrazioneCompletaPage() {
       const pendingRegistration = loadPendingRegistration();
       if (pendingRegistration) {
         setName(pendingRegistration.fullName);
+        setRole(pendingRegistration.userType);
 
         let avatarUrl: string | null = null;
         if (pendingRegistration.photo) {
@@ -146,9 +148,18 @@ export default function RegistrazioneCompletaPage() {
         return;
       }
 
+      const { data: existing } = await supabase
+        .from("profiles")
+        .select("user_type")
+        .eq("id", user.id)
+        .single();
+      setRole((existing?.user_type as "studente" | "tutor" | null) ?? null);
       setState("done-none");
     })();
   }, []);
+
+  const homeArea = role === "tutor" ? "/tutor/richieste" : "/studente/cerca";
+  const homeLabel = role === "tutor" ? "Vai alle tue richieste" : "Trova un tutor";
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#06B6D4] to-[#0891b2] px-6 py-10">
@@ -173,10 +184,10 @@ export default function RegistrazioneCompletaPage() {
               Il tuo account è stato creato ed è in fase di verifica.
             </p>
             <Link
-              href="/"
+              href={homeArea}
               className="rounded-full bg-[#0A2027] px-6 py-3 font-heading font-bold text-white"
             >
-              Torna alla home
+              {homeLabel}
             </Link>
           </div>
         )}
@@ -199,12 +210,12 @@ export default function RegistrazioneCompletaPage() {
         )}
         {state === "done-none" && (
           <div className="flex flex-col items-center gap-4">
-            <h1 className="font-heading text-2xl font-extrabold text-[#0A2027]">Email confermata! 🦈</h1>
+            <h1 className="font-heading text-2xl font-extrabold text-[#0A2027]">Bentornato/a! 🦈</h1>
             <Link
-              href="/"
+              href={homeArea}
               className="rounded-full bg-[#0A2027] px-6 py-3 font-heading font-bold text-white"
             >
-              Torna alla home
+              {homeLabel}
             </Link>
           </div>
         )}

@@ -1,7 +1,10 @@
+export type ConversationStatus = "in_attesa" | "accettata";
+
 export type Conversation = {
   id: string;
   student_id: string;
   tutor_id: string;
+  status: ConversationStatus | null;
   created_at: string;
 };
 

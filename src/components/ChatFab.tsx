@@ -11,17 +11,18 @@ export default function ChatFab() {
 
   // Sulla home c'è già lo squaletto grande al centro; nel thread di una chat
   // coprirebbe la casella di scrittura. In quei casi lo nascondiamo.
-  const inThread = /^\/studente\/messaggi\/.+/.test(pathname);
+  const inThread =
+    /^\/studente\/messaggi\/.+/.test(pathname) || /^\/tutor\/richieste\/.+/.test(pathname);
   const hidden =
     pathname === "/" ||
     pathname.startsWith("/registrazione") ||
     pathname.startsWith("/auth") ||
     inThread;
 
-  // Se siamo nell'area studente c'è la barra in basso: alziamo il bottone
+  // Nelle aree con la barra in basso (studente e tutor) alziamo il bottone
   // così non ci finisce sopra.
-  const inStudentArea = pathname.startsWith("/studente");
-  const bottomClass = inStudentArea ? "bottom-20" : "bottom-5";
+  const inTabbedArea = pathname.startsWith("/studente") || pathname.startsWith("/tutor");
+  const bottomClass = inTabbedArea ? "bottom-20" : "bottom-5";
 
   if (hidden) return null;
 

@@ -5,13 +5,12 @@ import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 
 const TABS = [
-  { href: "/studente/cerca", label: "Cerca", icon: "🔍" },
-  { href: "/studente/messaggi", label: "Messaggi", icon: "💬" },
-  { href: "/studente/abbonamenti", label: "Premium", icon: "💳" },
-  { href: "/studente/impostazioni", label: "Impostazioni", icon: "⚙️" },
+  { href: "/tutor/richieste", label: "Richieste", icon: "📩" },
+  { href: "/tutor/abbonamenti", label: "Premium", icon: "💳" },
+  { href: "/tutor/impostazioni", label: "Impostazioni", icon: "⚙️" },
 ];
 
-export default function StudenteLayout({ children }: { children: React.ReactNode }) {
+export default function TutorLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   return (
@@ -29,7 +28,7 @@ export default function StudenteLayout({ children }: { children: React.ReactNode
               <span className="relative flex h-8 w-8 items-center justify-center">
                 {active && (
                   <motion.span
-                    layoutId="tab-pill"
+                    layoutId="tutor-tab-pill"
                     className="absolute inset-0 rounded-xl bg-[#06B6D4] shadow-md"
                     transition={{ type: "spring", stiffness: 500, damping: 34 }}
                   />
