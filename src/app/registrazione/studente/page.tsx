@@ -68,9 +68,17 @@ export default function RegistrazioneStudentePage() {
       <div className="mx-auto max-w-md rounded-3xl border border-white/40 bg-white/75 p-6 shadow-2xl backdrop-blur-xl">
         {step === "form" && (
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <h1 className="font-heading text-2xl font-extrabold text-[#0A2027]">
-              Registrati come studente
-            </h1>
+            <div>
+              <h1 className="font-heading text-2xl font-extrabold text-[#0A2027]">
+                Registrati come studente
+              </h1>
+              <p className="mt-1 text-sm text-[#0A2027]/60">
+                Hai già un account?{" "}
+                <Link href="/accedi" className="font-semibold text-[#06B6D4] underline">
+                  Accedi
+                </Link>
+              </p>
+            </div>
             <label className="flex flex-col gap-1 text-sm font-medium text-[#0A2027]">
               Nome e cognome
               <input

@@ -83,6 +83,13 @@ export default function Home() {
             Sono un tutor
           </Link>
         </div>
+
+        <p className="text-sm text-white/90">
+          Hai già un account?{" "}
+          <Link href="/accedi" className="font-heading font-bold text-white underline">
+            Accedi
+          </Link>
+        </p>
       </main>
 
       {!introDone && <IntroOverlay onDone={() => setIntroDone(true)} />}

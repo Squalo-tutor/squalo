@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import LogoBadge from "@/components/landing/LogoBadge";
 import StatusBadge from "@/components/StatusBadge";
@@ -15,6 +16,7 @@ import { buildBookingMessage, clearPendingBooking, loadPendingBooking } from "@/
 type State = "loading" | "done-registration" | "done-booking" | "done-none" | "error";
 
 export default function RegistrazioneCompletaPage() {
+  const router = useRouter();
   const [state, setState] = useState<State>("loading");
   const [name, setName] = useState("");
   const [tutorName, setTutorName] = useState("");
@@ -148,15 +150,18 @@ export default function RegistrazioneCompletaPage() {
         return;
       }
 
+      // Login "semplice" (dalla schermata Accedi): niente registrazione né
+      // prenotazione in sospeso → mandiamo l'utente dritto nella sua area.
       const { data: existing } = await supabase
         .from("profiles")
         .select("user_type")
         .eq("id", user.id)
         .single();
-      setRole((existing?.user_type as "studente" | "tutor" | null) ?? null);
-      setState("done-none");
+      const existingRole = (existing?.user_type as "studente" | "tutor" | null) ?? null;
+      setRole(existingRole);
+      router.replace(existingRole === "tutor" ? "/tutor/richieste" : "/studente/cerca");
     })();
-  }, []);
+  }, [router]);
 
   const homeArea = role === "tutor" ? "/tutor/richieste" : "/studente/cerca";
   const homeLabel = role === "tutor" ? "Vai alle tue richieste" : "Trova un tutor";
