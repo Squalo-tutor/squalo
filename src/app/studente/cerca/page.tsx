@@ -161,7 +161,7 @@ export default function CercaPage() {
           <button
             onClick={useMyLocation}
             disabled={locating}
-            className="flex items-center gap-1.5 rounded-full bg-[#06B6D4] px-3.5 py-2 text-sm font-semibold text-white disabled:opacity-50"
+            className="flex items-center gap-1.5 rounded-full bg-gradient-to-br from-[#22D3EE] to-[#0891b2] px-3.5 py-2 text-sm font-semibold text-white shadow-md transition-transform active:scale-95 disabled:opacity-50"
           >
             📍 {locating ? "Cerco…" : "Cerca vicino a me"}
           </button>

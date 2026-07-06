@@ -10,6 +10,9 @@ import type { Conversation, Message, ChatPerson } from "@/lib/types";
 
 type State = "loading" | "needs-auth" | "not-found" | "ready";
 
+// Riconosce sequenze che sembrano un numero di telefono (8+ cifre).
+const PHONE_REGEX = /(?:\+?\d[ .\-]?){8,}/;
+
 type Props = {
   conversationId: string;
   backHref: string; // dove torna la freccia ←
@@ -27,6 +30,7 @@ export default function ChatThread({ conversationId, backHref, isTutor = false }
   const [sending, setSending] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [accepting, setAccepting] = useState(false);
+  const [phoneNotice, setPhoneNotice] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -105,6 +109,10 @@ export default function ChatThread({ conversationId, backHref, isTutor = false }
   async function send() {
     const text = input.trim();
     if (!text || sending || !userId) return;
+    if (!text.includes("http") && PHONE_REGEX.test(text)) {
+      setPhoneNotice(true);
+      setTimeout(() => setPhoneNotice(false), 7000);
+    }
     setSending(true);
     setInput("");
     const supabase = createClient();
@@ -263,6 +271,12 @@ export default function ChatThread({ conversationId, backHref, isTutor = false }
         })}
       </div>
 
+      {phoneNotice && (
+        <div className="mx-3 mb-1 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">
+          🦈 Meglio restare nella chat di Squalo: per la tua sicurezza evita di scambiare numeri o
+          contatti privati.
+        </div>
+      )}
       <div className="glass-cyan flex items-center gap-2 p-3">
         <input
           ref={fileRef}

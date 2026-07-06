@@ -56,7 +56,7 @@ export default function TutorFeed({ items }: { items: FeedItem[] }) {
               href={`/studente/tutor/${tutor.id}/prenota`}
               className="flex flex-col items-center gap-1 text-white"
             >
-              <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#06B6D4] text-xl shadow-lg">
+              <span className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#22D3EE] to-[#0891b2] text-xl shadow-lg ring-2 ring-white/40">
                 📅
               </span>
               <span className="text-[10px] font-semibold">Prenota</span>
@@ -67,7 +67,7 @@ export default function TutorFeed({ items }: { items: FeedItem[] }) {
           <div className="relative z-10 flex flex-col gap-2 p-5 pb-24 pr-20 text-white">
             <div className="flex items-center gap-2">
               <h2 className="font-heading text-2xl font-extrabold drop-shadow">{tutor.full_name}</h2>
-              <span className="rounded-full bg-[#06B6D4] px-3 py-1 font-heading text-sm font-bold">
+              <span className="rounded-full bg-gradient-to-br from-[#22D3EE] to-[#0891b2] px-3 py-1 font-heading text-sm font-bold shadow-md">
                 €{tutor.price_per_hour}/h
               </span>
             </div>
