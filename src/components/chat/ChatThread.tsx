@@ -222,10 +222,10 @@ export default function ChatThread({ conversationId, backHref, isTutor = false }
           return (
             <div
               key={m.id}
-              className={`max-w-[80%] rounded-2xl px-3 py-2 text-sm ${
+              className={`max-w-[80%] px-3.5 py-2 text-sm shadow-sm ${
                 own
-                  ? "ml-auto bg-[#06B6D4] text-white"
-                  : "border border-white/50 bg-white/80 text-[#0A2027] backdrop-blur-sm"
+                  ? "ml-auto rounded-2xl rounded-br-md bg-gradient-to-br from-[#22D3EE] to-[#0891b2] text-white"
+                  : "rounded-2xl rounded-bl-md border border-black/5 bg-white text-[#0A2027]"
               }`}
             >
               <MessageText content={m.content} own={own} />
@@ -240,14 +240,15 @@ export default function ChatThread({ conversationId, backHref, isTutor = false }
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && send()}
           placeholder="Scrivi un messaggio…"
-          className="flex-1 rounded-full border border-black/10 bg-white px-4 py-2 text-sm outline-none focus:border-[#06B6D4]"
+          className="flex-1 rounded-full border border-black/10 bg-white px-4 py-2.5 text-sm outline-none transition-colors focus:border-[#06B6D4]"
         />
         <button
           onClick={send}
           disabled={sending || !input.trim()}
-          className="rounded-full bg-[#06B6D4] px-4 py-2 text-sm font-heading font-bold text-white disabled:opacity-40"
+          aria-label="Invia"
+          className="btn-primary flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full text-lg disabled:opacity-40"
         >
-          Invia
+          ➤
         </button>
       </div>
     </div>

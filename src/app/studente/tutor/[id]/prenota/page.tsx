@@ -3,6 +3,7 @@
 import { useEffect, useState, use as usePromise } from "react";
 import Link from "next/link";
 import LogoBadge from "@/components/landing/LogoBadge";
+import SeaLife from "@/components/landing/SeaLife";
 import LocationPicker from "@/components/registrazione/LocationPicker";
 import { createClient } from "@/lib/supabase/client";
 import { savePendingBooking, buildBookingMessage, type PendingBooking } from "@/lib/pendingBooking";
@@ -150,15 +151,16 @@ export default function PrenotaPage({ params }: { params: Promise<{ id: string }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#06B6D4] to-[#0891b2] px-6 py-10">
-      <div className="mx-auto flex max-w-md flex-col items-center gap-2 pb-8">
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-b from-[#06B6D4] to-[#0891b2] px-6 py-10">
+      <SeaLife className="opacity-50" />
+      <div className="relative z-10 mx-auto flex max-w-md flex-col items-center gap-2 pb-8">
         <Link href="/" className="flex items-center gap-2">
           <LogoBadge size={32} />
           <span className="font-heading text-xl font-extrabold text-white">Squalo</span>
         </Link>
       </div>
 
-      <div className="mx-auto max-w-md rounded-3xl border border-white/40 bg-white/75 p-6 shadow-2xl backdrop-blur-xl">
+      <div className="animate-rise relative z-10 mx-auto max-w-md rounded-3xl border border-white/40 bg-white/75 p-6 shadow-2xl backdrop-blur-xl">
         {step === "form" && (
           <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             <div>
@@ -295,9 +297,9 @@ export default function PrenotaPage({ params }: { params: Promise<{ id: string }
             <button
               type="submit"
               disabled={loading}
-              className="rounded-full bg-[#06B6D4] px-6 py-3 font-heading font-bold text-white disabled:opacity-40"
+              className="btn-primary shine relative overflow-hidden rounded-full px-6 py-3.5 font-heading font-extrabold disabled:opacity-40"
             >
-              {loading ? "Invio…" : "Conferma prenotazione"}
+              {loading ? "Invio…" : "Conferma prenotazione 🦈"}
             </button>
           </form>
         )}

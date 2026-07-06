@@ -16,6 +16,7 @@ export default function ChatFab() {
     /^\/studente\/messaggi\/.+/.test(pathname) || /^\/tutor\/richieste\/.+/.test(pathname);
   const hidden =
     pathname === "/" ||
+    pathname === "/accedi" ||
     pathname.startsWith("/registrazione") ||
     pathname.startsWith("/auth") ||
     inThread;

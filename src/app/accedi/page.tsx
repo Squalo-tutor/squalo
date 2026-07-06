@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import LogoBadge from "@/components/landing/LogoBadge";
+import SeaLife from "@/components/landing/SeaLife";
 import { createClient } from "@/lib/supabase/client";
 
 export default function AccediPage() {
@@ -37,13 +38,14 @@ export default function AccediPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#06B6D4] to-[#0891b2] px-6 py-10">
-      <Link href="/" className="mb-6 flex items-center gap-2">
+    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#06B6D4] to-[#0891b2] px-6 py-10">
+      <SeaLife className="opacity-60" />
+      <Link href="/" className="relative z-10 mb-6 flex items-center gap-2">
         <LogoBadge size={32} />
         <span className="font-heading text-xl font-extrabold text-white">Squalo</span>
       </Link>
 
-      <div className="w-full max-w-sm rounded-3xl border border-white/40 bg-white/80 p-6 text-center shadow-2xl backdrop-blur-xl">
+      <div className="animate-rise relative z-10 w-full max-w-sm rounded-3xl border border-white/40 bg-white/80 p-6 text-center shadow-2xl backdrop-blur-xl">
         {sent ? (
           <>
             <span className="text-4xl">📬</span>
@@ -77,7 +79,7 @@ export default function AccediPage() {
             <button
               type="submit"
               disabled={loading}
-              className="rounded-full bg-[#06B6D4] px-6 py-3 font-heading font-bold text-white disabled:opacity-40"
+              className="btn-primary rounded-full px-6 py-3 font-heading font-extrabold disabled:opacity-40"
             >
               {loading ? "Invio…" : "Invia link di accesso"}
             </button>
@@ -86,7 +88,7 @@ export default function AccediPage() {
       </div>
 
       {!sent && (
-        <div className="mt-5 flex flex-col items-center gap-1 text-sm text-white/90">
+        <div className="relative z-10 mt-5 flex flex-col items-center gap-1 text-sm text-white/90">
           <span>Non hai ancora un account?</span>
           <div className="flex gap-4">
             <Link href="/registrazione/studente" className="font-semibold underline">
