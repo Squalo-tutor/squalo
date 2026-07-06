@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import LogoBadge from "@/components/landing/LogoBadge";
 import SeaLife from "@/components/landing/SeaLife";
+import AvatarPicker from "@/components/registrazione/AvatarPicker";
 import ChipSelect from "@/components/registrazione/ChipSelect";
 import LocationPicker from "@/components/registrazione/LocationPicker";
 import { createClient } from "@/lib/supabase/client";
@@ -136,15 +137,9 @@ export default function RegistrazioneTutorPage() {
               />
             </label>
 
-            <label className="flex flex-col gap-1 text-sm font-medium text-[#0A2027]">
-              Foto profilo
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => setPhoto(e.target.files?.[0] ?? null)}
-                className="text-sm"
-              />
-            </label>
+            <div className="py-1">
+              <AvatarPicker file={photo} onChange={setPhoto} />
+            </div>
 
             <div className="flex flex-col gap-1.5">
               <span className="text-sm font-medium text-[#0A2027]">Materie che insegni</span>

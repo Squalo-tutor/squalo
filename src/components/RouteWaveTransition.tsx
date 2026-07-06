@@ -3,10 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
+import LogoBadge from "@/components/landing/LogoBadge";
 
 // Bolle sparse su tutto lo schermo: salgono dal basso "invadendo" la vista
 // (stile cartone animato) e poi si ritirano scoprendo la nuova pagina.
-const BUBBLES = Array.from({ length: 30 }, (_, i) => {
+const BUBBLES = Array.from({ length: 18 }, (_, i) => {
   const left = (i * 53 + 11) % 100;
   const top = (i * 71 + 7) % 100;
   const size = 12 + ((i * 7) % 22); // vmax
@@ -108,6 +109,16 @@ export default function RouteWaveTransition() {
               transition={{ duration: f.duration + 0.5, delay: f.delay, ease: "easeOut" }}
             />
           ))}
+
+          {/* logo Squalo che appare al centro mentre copre, poi svanisce */}
+          <motion.div
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 drop-shadow-lg"
+            initial={{ scale: 0, opacity: 0, rotate: -18 }}
+            animate={{ scale: [0, 1, 1, 0.7], opacity: [0, 1, 1, 0], rotate: [-18, 0, 0, 8] }}
+            transition={{ duration: 1, times: [0, 0.42, 0.62, 1], ease: "easeInOut" }}
+          >
+            <LogoBadge size={88} />
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>

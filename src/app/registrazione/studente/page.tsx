@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import LogoBadge from "@/components/landing/LogoBadge";
 import SeaLife from "@/components/landing/SeaLife";
+import AvatarPicker from "@/components/registrazione/AvatarPicker";
 import { createClient } from "@/lib/supabase/client";
 import { fileToBase64, savePendingRegistration } from "@/lib/pendingRegistration";
 
@@ -99,15 +100,9 @@ export default function RegistrazioneStudentePage() {
                 placeholder="mario@esempio.it"
               />
             </label>
-            <label className="flex flex-col gap-1 text-sm font-medium text-[#0A2027]">
-              Foto profilo (facoltativa)
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => setPhoto(e.target.files?.[0] ?? null)}
-                className="text-sm"
-              />
-            </label>
+            <div className="py-1">
+              <AvatarPicker file={photo} onChange={setPhoto} />
+            </div>
             {error && <p className="text-sm text-red-500">{error}</p>}
             <button
               type="submit"
