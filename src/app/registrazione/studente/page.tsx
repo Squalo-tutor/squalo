@@ -13,7 +13,6 @@ export default function RegistrazioneStudentePage() {
   const [step, setStep] = useState<Step>("form");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
   const [photo, setPhoto] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -30,7 +29,7 @@ export default function RegistrazioneStudentePage() {
       savePendingRegistration({
         userType: "studente",
         fullName,
-        phone,
+        phone: "",
         photo: photo
           ? { name: photo.name, type: photo.type, base64: await fileToBase64(photo) }
           : undefined,
@@ -98,16 +97,6 @@ export default function RegistrazioneStudentePage() {
                 onChange={(e) => setEmail(e.target.value)}
                 className="rounded-xl border border-black/10 px-4 py-2.5 outline-none focus:border-[#06B6D4]"
                 placeholder="mario@esempio.it"
-              />
-            </label>
-            <label className="flex flex-col gap-1 text-sm font-medium text-[#0A2027]">
-              Telefono (facoltativo)
-              <input
-                type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="rounded-xl border border-black/10 px-4 py-2.5 outline-none focus:border-[#06B6D4]"
-                placeholder="333 1234567"
               />
             </label>
             <label className="flex flex-col gap-1 text-sm font-medium text-[#0A2027]">

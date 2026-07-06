@@ -25,7 +25,9 @@ export default function ChatThread({ conversationId, backHref, isTutor = false }
   const [status, setStatus] = useState<Conversation["status"]>(null);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [accepting, setAccepting] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -118,6 +120,33 @@ export default function ChatThread({ conversationId, backHref, isTutor = false }
       setInput(text);
     }
     setSending(false);
+  }
+
+  async function sendPhoto(file: File) {
+    if (!userId || uploading) return;
+    setUploading(true);
+    const supabase = createClient();
+    const ext = file.name.split(".").pop() || "jpg";
+    const path = `chat/${conversationId}/${Date.now()}.${ext}`;
+    const { error: upErr } = await supabase.storage
+      .from("avatars")
+      .upload(path, file, { upsert: true });
+    if (upErr) {
+      setUploading(false);
+      window.alert("Non riesco a caricare la foto. Riprova.");
+      return;
+    }
+    const url = supabase.storage.from("avatars").getPublicUrl(path).data.publicUrl;
+    const { data, error } = await supabase
+      .from("messages")
+      .insert({ conversation_id: conversationId, sender_id: userId, content: url })
+      .select()
+      .single();
+    if (!error && data) {
+      const inserted = data as Message;
+      setMessages((prev) => (prev.some((m) => m.id === inserted.id) ? prev : [...prev, inserted]));
+    }
+    setUploading(false);
   }
 
   async function removeConversation() {
@@ -235,6 +264,25 @@ export default function ChatThread({ conversationId, backHref, isTutor = false }
       </div>
 
       <div className="glass-cyan flex items-center gap-2 p-3">
+        <input
+          ref={fileRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => {
+            const f = e.target.files?.[0];
+            if (f) sendPhoto(f);
+            e.target.value = "";
+          }}
+        />
+        <button
+          onClick={() => fileRef.current?.click()}
+          disabled={uploading}
+          aria-label="Invia una foto"
+          className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-white/70 text-lg text-[#0A2027]/70 transition-colors hover:bg-white active:scale-90 disabled:opacity-50"
+        >
+          {uploading ? "⏳" : "📷"}
+        </button>
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}

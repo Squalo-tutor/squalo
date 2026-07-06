@@ -41,9 +41,12 @@ export default function MapView({ pins, center, zoom = 5, onSelect, flyTo }: Map
     markersRef.current = pins.map((pin) => {
       const icon = L.divIcon({
         className: "",
-        html: `<div style="background:#06B6D4;color:white;font-weight:700;font-size:12px;padding:4px 9px;border-radius:999px;box-shadow:0 2px 6px rgba(10,32,39,0.35);white-space:nowrap;border:2px solid white;">€${pin.price}</div>`,
+        html: `<div style="display:flex;flex-direction:column;align-items:center;transform:translateY(-4px);">
+          <div style="background:linear-gradient(180deg,#22D3EE,#0891b2);color:white;font-weight:800;font-size:12px;padding:5px 11px;border-radius:999px;box-shadow:0 6px 14px rgba(8,145,178,0.45);white-space:nowrap;border:2px solid white;">€${pin.price}</div>
+          <div style="width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:7px solid #0891b2;margin-top:-1px;filter:drop-shadow(0 2px 1px rgba(8,145,178,0.3));"></div>
+        </div>`,
         iconSize: undefined,
-        iconAnchor: [22, 14],
+        iconAnchor: [24, 30],
       });
       const marker = L.marker([pin.lat, pin.lng], { icon }).addTo(map);
       marker.on("click", () => onSelect(pin.id));

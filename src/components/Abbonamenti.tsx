@@ -2,16 +2,17 @@
 
 const FREE = [
   "Cerca e prenota tutor gratis",
-  "Messaggi in tempo reale",
+  "Messaggi e foto in chat",
   "Mappa e ricerca vicino a te",
 ];
 
 const PREMIUM = [
-  "Accesso ai tutor più bravi ⭐",
-  "Priorità quando invii una richiesta",
-  "Più visibilità (per i tutor)",
-  "Meno limiti con lo Squaletto AI 🦈",
-  "Carica foto nelle chat",
+  "Niente pubblicità 🚫",
+  "Accesso ai tutor migliori ⭐",
+  "Le tue richieste sempre in cima 🚀",
+  "Più visibilità sul profilo (per i tutor)",
+  "Chatbot AI 🦈 senza limiti",
+  "Badge Premium che ti fa notare",
 ];
 
 export default function Abbonamenti() {
@@ -48,6 +49,7 @@ export default function Abbonamenti() {
           </span>
           <div className="flex items-baseline gap-2">
             <h2 className="font-heading text-xl font-extrabold">Premium 🦈</h2>
+            <span className="text-sm font-semibold text-white/80">da 3,99€/mese</span>
           </div>
           <p className="mt-0.5 text-sm text-white/80">Il meglio di Squalo, ogni mese.</p>
           <ul className="mt-4 flex flex-col gap-2">

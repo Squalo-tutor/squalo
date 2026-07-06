@@ -89,8 +89,30 @@ export default function SettingsPanel({ loginNext }: { loginNext: string }) {
     setTimeout(() => setFeedbackDone(false), 3500);
   }
 
+  const [deleting, setDeleting] = useState(false);
+
   async function logout() {
     const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push("/");
+  }
+
+  async function deleteAccount() {
+    if (
+      !window.confirm(
+        "Vuoi eliminare per sempre il tuo account e tutti i tuoi dati? L'azione non si può annullare."
+      )
+    ) {
+      return;
+    }
+    setDeleting(true);
+    const supabase = createClient();
+    const { error } = await supabase.rpc("delete_user");
+    if (error) {
+      setDeleting(false);
+      window.alert("Non riesco a eliminare l'account. Riprova più tardi.");
+      return;
+    }
     await supabase.auth.signOut();
     router.push("/");
   }
@@ -185,9 +207,17 @@ export default function SettingsPanel({ loginNext }: { loginNext: string }) {
 
         <button
           onClick={logout}
-          className="rounded-3xl border border-red-200 bg-white/70 p-4 text-center text-sm font-semibold text-red-500 shadow-lg backdrop-blur-xl"
+          className="rounded-3xl border border-black/10 bg-white/70 p-4 text-center text-sm font-semibold text-[#0A2027] shadow-lg backdrop-blur-xl"
         >
           Esci dall&apos;account
+        </button>
+
+        <button
+          onClick={deleteAccount}
+          disabled={deleting}
+          className="text-center text-sm font-semibold text-red-500 underline decoration-red-300 underline-offset-4 disabled:opacity-50"
+        >
+          {deleting ? "Elimino…" : "Elimina definitivamente l'account"}
         </button>
       </div>
     </div>
