@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import StatusBadge from "@/components/StatusBadge";
 import WaveLayer from "@/components/landing/WaveLayer";
+import SeaLife from "@/components/landing/SeaLife";
 import { createClient } from "@/lib/supabase/server";
 import type { TutorPublic } from "@/lib/types";
 
@@ -16,8 +17,9 @@ export default async function TutorProfilePage({ params }: { params: Promise<{ i
   return (
     <div className="h-full overflow-y-auto bg-cyan-50/40 pb-10">
       <div className="relative overflow-hidden bg-gradient-to-b from-[#06B6D4] to-[#0891b2] px-4 pb-16 pt-6">
+        <SeaLife className="opacity-70" />
         <WaveLayer className="bottom-0 h-14" fill="white" opacity={0.12} duration={11} />
-        <Link href="/studente/cerca" className="relative text-sm font-semibold text-white/90">
+        <Link href="/studente/cerca" className="relative z-10 text-sm font-semibold text-white/90">
           ← Torna alla ricerca
         </Link>
       </div>
@@ -25,7 +27,7 @@ export default async function TutorProfilePage({ params }: { params: Promise<{ i
       <div className="mx-auto -mt-12 max-w-md px-4">
         <div className="rounded-3xl border border-white/40 bg-white/75 p-5 shadow-2xl backdrop-blur-xl">
           <div className="flex items-center gap-4">
-            <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-2xl bg-cyan-100">
+            <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-2xl bg-cyan-100 ring-4 ring-white shadow-lg">
               {tutor.avatar_url ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={tutor.avatar_url} alt={tutor.full_name} className="h-full w-full object-cover" />
@@ -94,9 +96,9 @@ export default async function TutorProfilePage({ params }: { params: Promise<{ i
 
           <Link
             href={`/studente/tutor/${tutor.id}/prenota`}
-            className="mt-6 block w-full rounded-full bg-[#06B6D4] px-6 py-3 text-center font-heading font-bold text-white shadow-md transition-transform hover:scale-[1.02]"
+            className="btn-primary shine mt-6 block w-full rounded-full px-6 py-3.5 text-center font-heading font-extrabold"
           >
-            Prenota gratis
+            Prenota gratis 🦈
           </Link>
         </div>
       </div>

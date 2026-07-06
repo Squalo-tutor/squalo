@@ -50,7 +50,10 @@ export default function Home() {
 
       <main className="relative z-10 flex flex-1 flex-col items-center justify-center gap-8 px-6 py-12 text-center">
         <div className="max-w-xl">
-          <h1 className="font-heading text-4xl font-extrabold leading-tight text-white md:text-5xl">
+          <span className="mb-4 inline-block rounded-full border border-white/40 bg-white/15 px-4 py-1.5 text-sm font-semibold text-white backdrop-blur-md">
+            ✨ Ripetizioni · 100% gratis
+          </span>
+          <h1 className="font-heading text-4xl font-extrabold leading-tight text-white drop-shadow-sm md:text-5xl">
             Il tuo tutor a due passi.
           </h1>
           <p className="mt-4 text-lg text-white/90">
@@ -72,13 +75,13 @@ export default function Home() {
         <div className="flex flex-col gap-4 sm:flex-row">
           <Link
             href="/studente/cerca"
-            className="rounded-full border border-white/40 bg-[#0A2027]/70 px-8 py-3 font-heading font-bold text-white shadow-[inset_0_1px_1px_rgba(255,255,255,0.4),0_8px_24px_rgba(10,32,39,0.35)] backdrop-blur-md transition-transform hover:scale-105"
+            className="rounded-full bg-white px-8 py-3.5 font-heading font-extrabold text-[#0891b2] shadow-[0_12px_30px_rgba(10,32,39,0.28)] transition-transform hover:scale-105 active:scale-95"
           >
             Sono uno studente
           </Link>
           <Link
             href="/registrazione/tutor"
-            className="rounded-full border border-white/60 bg-white/30 px-8 py-3 font-heading font-bold text-[#0A2027] shadow-[inset_0_1px_1px_rgba(255,255,255,0.6),0_8px_24px_rgba(10,32,39,0.15)] backdrop-blur-md transition-transform hover:scale-105"
+            className="rounded-full border-2 border-white/70 bg-white/15 px-8 py-3.5 font-heading font-extrabold text-white backdrop-blur-md transition-transform hover:scale-105 active:scale-95"
           >
             Sono un tutor
           </Link>
