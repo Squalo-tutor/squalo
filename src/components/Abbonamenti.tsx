@@ -11,7 +11,7 @@ const PREMIUM = [
   "Accesso ai tutor migliori ⭐",
   "Le tue richieste sempre in cima 🚀",
   "Più visibilità sul profilo (per i tutor)",
-  "Chatbot AI 🦈 senza limiti",
+  "Chatbot AI 🦈 con meno limiti",
   "Badge Premium che ti fa notare",
 ];
 

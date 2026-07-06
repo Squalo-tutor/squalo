@@ -125,7 +125,7 @@ export default function ChatOverlay({ open, onClose }: ChatOverlayProps) {
 
             <div className="border-t border-black/5 bg-cyan-50/60 px-4 py-2 text-center text-xs text-[#0A2027]/70">
               🐬 Presto: con <span className="font-bold">Squalo Premium</span> avrai priorità nelle
-              richieste ai tutor migliori, chat senza limiti e potrai anche mandare foto.
+              richieste ai tutor migliori, niente pubblicità e meno limiti con lo Squaletto.
             </div>
 
             <div className="flex items-center gap-2 border-t border-black/5 p-3">
