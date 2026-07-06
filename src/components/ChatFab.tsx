@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
 import SharkMascot from "@/components/landing/SharkMascot";
 import ChatOverlay from "@/components/landing/ChatOverlay";
 
@@ -28,13 +29,18 @@ export default function ChatFab() {
 
   return (
     <>
-      <button
+      <motion.button
         onClick={() => setOpen(true)}
         aria-label="Parla con Squalo"
-        className={`fixed right-4 ${bottomClass} z-30 flex h-16 w-16 items-center justify-center rounded-full border border-white/60 bg-white/85 shadow-[0_8px_24px_rgba(10,32,39,0.25)] backdrop-blur-md transition-transform hover:scale-105 active:scale-95`}
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ type: "spring", stiffness: 420, damping: 18, delay: 0.3 }}
+        whileHover={{ scale: 1.09, rotate: -4 }}
+        whileTap={{ scale: 0.9 }}
+        className={`fixed right-4 ${bottomClass} z-30 flex h-16 w-16 items-center justify-center rounded-full border border-white/60 bg-white/85 shadow-[0_8px_24px_rgba(10,32,39,0.25)] backdrop-blur-md`}
       >
         <SharkMascot size={52} />
-      </button>
+      </motion.button>
       <ChatOverlay open={open} onClose={() => setOpen(false)} />
     </>
   );

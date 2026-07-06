@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
@@ -14,8 +15,22 @@ const TABS = [
 export default function StudenteLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
+  // Su mobile blocchiamo lo scroll del documento: scorre solo il contenuto
+  // interno, così la barra in basso resta sempre incollata al bordo.
+  useEffect(() => {
+    const html = document.documentElement;
+    const prevBody = document.body.style.overflow;
+    const prevHtml = html.style.overflow;
+    document.body.style.overflow = "hidden";
+    html.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prevBody;
+      html.style.overflow = prevHtml;
+    };
+  }, []);
+
   return (
-    <div className="flex h-dvh flex-col">
+    <div className="flex h-dvh flex-col overflow-hidden">
       <div className="min-h-0 flex-1">{children}</div>
       <nav className="glass-cyan flex flex-shrink-0 pb-[env(safe-area-inset-bottom)]">
         {TABS.map((tab) => {

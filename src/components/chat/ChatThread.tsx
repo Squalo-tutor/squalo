@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import MessageText from "@/components/studente/MessageText";
@@ -16,6 +17,7 @@ type Props = {
 };
 
 export default function ChatThread({ conversationId, backHref, isTutor = false }: Props) {
+  const router = useRouter();
   const [state, setState] = useState<State>("loading");
   const [userId, setUserId] = useState<string | null>(null);
   const [other, setOther] = useState<ChatPerson | null>(null);
@@ -118,6 +120,19 @@ export default function ChatThread({ conversationId, backHref, isTutor = false }
     setSending(false);
   }
 
+  async function removeConversation() {
+    if (!window.confirm("Vuoi eliminare questa conversazione? L'azione non si può annullare.")) {
+      return;
+    }
+    const supabase = createClient();
+    const { error } = await supabase.from("conversations").delete().eq("id", conversationId);
+    if (error) {
+      window.alert("Non riesco a eliminare la conversazione. Riprova.");
+      return;
+    }
+    router.replace(backHref);
+  }
+
   async function accept() {
     if (accepting || !userId) return;
     setAccepting(true);
@@ -179,6 +194,13 @@ export default function ChatThread({ conversationId, backHref, isTutor = false }
             {status === "accettata" ? "Accettata ✅" : "In attesa"}
           </span>
         </div>
+        <button
+          onClick={removeConversation}
+          aria-label="Elimina conversazione"
+          className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full text-lg text-[#0A2027]/50 transition-colors hover:bg-red-50 hover:text-red-500 active:scale-90"
+        >
+          🗑️
+        </button>
       </div>
 
       {isTutor && status !== "accettata" && (

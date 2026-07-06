@@ -44,6 +44,40 @@ body {
   }
 }
 
+/* Riflesso di luce che scorre (per le card in evidenza, es. Premium). */
+@keyframes squalo-shine {
+  0% {
+    transform: translateX(-140%) skewX(-20deg);
+  }
+  60%,
+  100% {
+    transform: translateX(320%) skewX(-20deg);
+  }
+}
+
+.shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 45%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.35),
+    transparent
+  );
+  transform: translateX(-140%) skewX(-20deg);
+  animation: squalo-shine 3.4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shine::after {
+    animation: none;
+    display: none;
+  }
+}
+
 /* Liquid glass amplificato: vetro smerigliato con saturazione,
    riflesso interno in alto e ombra morbida. */
 .glass {

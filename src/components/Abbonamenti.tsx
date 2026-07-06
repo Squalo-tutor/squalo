@@ -23,7 +23,7 @@ export default function Abbonamenti() {
 
       <div className="mx-auto flex max-w-md flex-col gap-4 p-4">
         {/* Gratis */}
-        <section className="rounded-3xl border border-white/40 bg-white/70 p-5 shadow-lg backdrop-blur-xl">
+        <section className="animate-rise rounded-3xl border border-white/40 bg-white/70 p-5 shadow-lg backdrop-blur-xl">
           <div className="flex items-baseline justify-between">
             <h2 className="font-heading text-lg font-extrabold text-[#0A2027]">Gratis</h2>
             <span className="font-heading font-bold text-[#0A2027]">€0</span>
@@ -39,7 +39,10 @@ export default function Abbonamenti() {
         </section>
 
         {/* Premium */}
-        <section className="relative overflow-hidden rounded-3xl border border-white/50 bg-gradient-to-br from-[#06B6D4] to-[#0891b2] p-5 text-white shadow-2xl">
+        <section
+          className="shine animate-rise relative overflow-hidden rounded-3xl border border-white/50 bg-gradient-to-br from-[#06B6D4] to-[#0891b2] p-5 text-white shadow-2xl"
+          style={{ animationDelay: "80ms" }}
+        >
           <span className="absolute right-4 top-4 rounded-full bg-white/20 px-3 py-1 text-xs font-bold backdrop-blur-md">
             In arrivo
           </span>

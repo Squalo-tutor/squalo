@@ -11,7 +11,7 @@ export default function TutorCard({ tutor, distanceKm }: TutorCardProps) {
   return (
     <Link
       href={`/studente/tutor/${tutor.id}`}
-      className="flex gap-3 rounded-2xl bg-white p-3 shadow-sm transition-shadow hover:shadow-md"
+      className="flex gap-3 rounded-2xl bg-white p-3 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-lg active:scale-[0.99]"
     >
       <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-xl bg-cyan-100">
         {tutor.avatar_url ? (
