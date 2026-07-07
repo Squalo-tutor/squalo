@@ -74,7 +74,7 @@ export default function Home() {
 
         <div className="flex flex-col gap-4 sm:flex-row">
           <Link
-            href="/studente/cerca"
+            href="/registrazione/studente"
             className="rounded-full bg-white px-8 py-3.5 font-heading font-extrabold text-[#0891b2] shadow-[0_12px_30px_rgba(10,32,39,0.28)] transition-transform hover:scale-105 active:scale-95"
           >
             Sono uno studente
