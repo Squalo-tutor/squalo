@@ -18,6 +18,7 @@ export type PendingRegistration =
       address: string;
       latitude: number | null;
       longitude: number | null;
+      isOnline: boolean;
       days: string[];
       timeSlots: string[];
       price: string;

@@ -9,7 +9,7 @@ import { createClient } from "@/lib/supabase/client";
 import { savePendingBooking, buildBookingMessage, type PendingBooking } from "@/lib/pendingBooking";
 import type { TutorPublic } from "@/lib/types";
 
-type Mode = "vado_dal_tutor" | "tutor_viene_da_me";
+type Mode = "vado_dal_tutor" | "tutor_viene_da_me" | "online";
 type Step = "form" | "sent" | "done";
 
 export default function PrenotaPage({ params }: { params: Promise<{ id: string }> }) {
@@ -39,7 +39,9 @@ export default function PrenotaPage({ params }: { params: Promise<{ id: string }
     (async () => {
       const supabase = createClient();
       const { data } = await supabase.from("tutors_public").select("*").eq("id", id).single();
-      setTutor(data as TutorPublic | null);
+      const t = data as TutorPublic | null;
+      setTutor(t);
+      if (t?.is_online && !t.address) setMode("online");
       setLoadingTutor(false);
 
       const {
@@ -217,31 +219,49 @@ export default function PrenotaPage({ params }: { params: Promise<{ id: string }
             </label>
 
             <div className="flex flex-col gap-2">
-              <span className="text-sm font-medium text-[#0A2027]">Dove</span>
-              <div className="flex gap-2">
+              <span className="text-sm font-medium text-[#0A2027]">Come</span>
+              <div className="flex flex-col gap-2">
+                {tutor.is_online && (
+                  <button
+                    type="button"
+                    onClick={() => setMode("online")}
+                    className={`rounded-xl border px-3 py-2.5 text-left text-sm font-semibold ${
+                      mode === "online"
+                        ? "border-[#06B6D4] bg-cyan-50 text-[#0A2027]"
+                        : "border-black/10 text-[#0A2027]/60"
+                    }`}
+                  >
+                    💻 Lezione online
+                  </button>
+                )}
                 <button
                   type="button"
                   onClick={() => setMode("vado_dal_tutor")}
-                  className={`flex-1 rounded-xl border px-3 py-2 text-sm font-semibold ${
+                  className={`rounded-xl border px-3 py-2.5 text-left text-sm font-semibold ${
                     mode === "vado_dal_tutor"
                       ? "border-[#06B6D4] bg-cyan-50 text-[#0A2027]"
                       : "border-black/10 text-[#0A2027]/60"
                   }`}
                 >
-                  Vado dal tutor
+                  🚶 Vado dal tutor
                 </button>
                 <button
                   type="button"
                   onClick={() => setMode("tutor_viene_da_me")}
-                  className={`flex-1 rounded-xl border px-3 py-2 text-sm font-semibold ${
+                  className={`rounded-xl border px-3 py-2.5 text-left text-sm font-semibold ${
                     mode === "tutor_viene_da_me"
                       ? "border-[#06B6D4] bg-cyan-50 text-[#0A2027]"
                       : "border-black/10 text-[#0A2027]/60"
                   }`}
                 >
-                  Il tutor viene da me
+                  🏠 Il tutor viene da me
                 </button>
               </div>
+              {mode === "online" && (
+                <p className="text-xs text-[#0A2027]/50">
+                  💻 Lezione a distanza: vi accordate in chat sul link della videochiamata.
+                </p>
+              )}
               {mode === "vado_dal_tutor" && tutor.address && (
                 <p className="text-xs text-[#0A2027]/50">📍 {tutor.address}</p>
               )}

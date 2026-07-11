@@ -31,6 +31,7 @@ export type TutorPublic = {
   address: string | null;
   latitude: number | null;
   longitude: number | null;
+  is_online: boolean | null;
   days: string[];
   time_slots: string[];
   price_per_hour: number;

@@ -74,6 +74,11 @@ export default function TutorFeed({ items }: { items: FeedItem[] }) {
 
             <div className="flex flex-wrap items-center gap-2">
               <StatusBadge status={tutor.verification_status} />
+              {tutor.is_online && (
+                <span className="rounded-full bg-white/20 px-2.5 py-1 text-xs font-semibold backdrop-blur-md">
+                  💻 Online
+                </span>
+              )}
               {distance != null && (
                 <span className="rounded-full bg-white/15 px-2.5 py-1 text-xs font-semibold backdrop-blur-md">
                   📍 {distance.toFixed(1)} km

@@ -42,8 +42,13 @@ export default function TutorCard({ tutor, distanceKm }: TutorCardProps) {
             </span>
           ))}
         </div>
-        <div className="mt-2 flex items-center gap-2">
+        <div className="mt-2 flex flex-wrap items-center gap-1.5">
           <StatusBadge status={tutor.verification_status} />
+          {tutor.is_online && (
+            <span className="rounded-full bg-cyan-50 px-2 py-0.5 text-xs font-semibold text-[#0891b2]">
+              💻 Online
+            </span>
+          )}
           {distanceKm != null && (
             <span className="text-xs font-medium text-[#0A2027]/45">
               📍 {distanceKm.toFixed(1)} km

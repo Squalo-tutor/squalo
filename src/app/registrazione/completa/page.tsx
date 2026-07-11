@@ -79,6 +79,7 @@ export default function RegistrazioneCompletaPage() {
               address: pendingRegistration.address?.trim() || null,
               latitude: pendingRegistration.latitude,
               longitude: pendingRegistration.longitude,
+              is_online: pendingRegistration.isOnline,
               days: pendingRegistration.days,
               time_slots: pendingRegistration.timeSlots,
               price_per_hour: Number(pendingRegistration.price),

@@ -20,6 +20,7 @@ export default function CercaPage() {
   const [view, setView] = useState<"map" | "list" | "feed">("map");
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
   const [showFilters, setShowFilters] = useState(false);
+  const [onlyOnline, setOnlyOnline] = useState(false);
 
   const [cityQuery, setCityQuery] = useState("");
   const [citySuggestions, setCitySuggestions] = useState<GeocodeResult[]>([]);
@@ -83,9 +84,11 @@ export default function CercaPage() {
 
   const filtered = useMemo(() => {
     return tutors.filter(
-      (t) => selectedSubjects.length === 0 || t.subjects.some((s) => selectedSubjects.includes(s))
+      (t) =>
+        (selectedSubjects.length === 0 || t.subjects.some((s) => selectedSubjects.includes(s))) &&
+        (!onlyOnline || t.is_online)
     );
-  }, [tutors, selectedSubjects]);
+  }, [tutors, selectedSubjects, onlyOnline]);
 
   const withDistance = useMemo(() => {
     return filtered.map((t) => ({
@@ -148,6 +151,16 @@ export default function CercaPage() {
             className="rounded-full border border-black/10 px-3 py-2 text-sm font-semibold text-[#0A2027]"
           >
             Materia {selectedSubjects.length > 0 ? `(${selectedSubjects.length})` : ""}
+          </button>
+          <button
+            onClick={() => setOnlyOnline((v) => !v)}
+            className={`rounded-full border px-3 py-2 text-sm font-semibold ${
+              onlyOnline
+                ? "border-[#06B6D4] bg-cyan-50 text-[#0891b2]"
+                : "border-black/10 text-[#0A2027]"
+            }`}
+          >
+            💻
           </button>
         </div>
 

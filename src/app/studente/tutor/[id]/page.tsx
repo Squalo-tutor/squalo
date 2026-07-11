@@ -42,8 +42,13 @@ export default async function TutorProfilePage({ params }: { params: Promise<{ i
               <p className="font-heading text-lg font-bold text-[#06B6D4]">
                 €{tutor.price_per_hour}/ora
               </p>
-              <div className="mt-1">
+              <div className="mt-1 flex flex-wrap items-center gap-1.5">
                 <StatusBadge status={tutor.verification_status} />
+                {tutor.is_online && (
+                  <span className="rounded-full bg-cyan-50 px-2.5 py-1 text-xs font-bold text-[#0891b2]">
+                    💻 Online
+                  </span>
+                )}
               </div>
             </div>
           </div>

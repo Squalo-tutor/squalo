@@ -22,6 +22,7 @@ export default function RegistrazioneTutorPage() {
   const [subjects, setSubjects] = useState<string[]>([]);
   const [address, setAddress] = useState("");
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const [isOnline, setIsOnline] = useState(false);
   const [days, setDays] = useState<string[]>([]);
   const [timeSlots, setTimeSlots] = useState<string[]>([]);
   const [price, setPrice] = useState("");
@@ -36,8 +37,8 @@ export default function RegistrazioneTutorPage() {
       setError("Nome, email, almeno una materia e prezzo sono obbligatori.");
       return;
     }
-    if (!address.trim() && !coords) {
-      setError("Indica dove fai ripetizioni: scrivi l'indirizzo o usa il tasto posizione.");
+    if (!isOnline && !address.trim() && !coords) {
+      setError("Indica dove fai ripetizioni: scrivi l'indirizzo, usa il tasto posizione, o spunta \"online\".");
       return;
     }
     setLoading(true);
@@ -53,6 +54,7 @@ export default function RegistrazioneTutorPage() {
         address,
         latitude: coords?.lat ?? null,
         longitude: coords?.lng ?? null,
+        isOnline,
         days,
         timeSlots,
         price,
@@ -145,6 +147,22 @@ export default function RegistrazioneTutorPage() {
               <span className="text-sm font-medium text-[#0A2027]">Materie che insegni</span>
               <ChipSelect options={SUBJECTS} selected={subjects} onChange={setSubjects} />
             </div>
+
+            <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-black/10 bg-cyan-50/40 p-3">
+              <input
+                type="checkbox"
+                checked={isOnline}
+                onChange={(e) => setIsOnline(e.target.checked)}
+                className="mt-0.5 h-5 w-5 flex-shrink-0 accent-[#06B6D4]"
+              />
+              <span className="text-sm text-[#0A2027]">
+                <span className="font-semibold">💻 Faccio ripetizioni online</span>
+                <br />
+                <span className="text-xs text-[#0A2027]/60">
+                  Se insegni <b>solo</b> online, la posizione qui sotto è facoltativa.
+                </span>
+              </span>
+            </label>
 
             <LocationPicker
               address={address}

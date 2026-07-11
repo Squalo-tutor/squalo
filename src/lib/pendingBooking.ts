@@ -7,7 +7,7 @@ export type PendingBooking = {
   day: string;
   timeSlot: string;
   subject: string;
-  mode: "vado_dal_tutor" | "tutor_viene_da_me";
+  mode: "vado_dal_tutor" | "tutor_viene_da_me" | "online";
   location?: { address?: string; lat?: number; lng?: number };
   note?: string;
 };
@@ -31,7 +31,9 @@ export function buildBookingMessage(b: PendingBooking, tutorAddress: string | nu
     `Giorno: ${b.day} — ${b.timeSlot}`,
     `Materia: ${b.subject}`,
   ];
-  if (b.mode === "vado_dal_tutor") {
+  if (b.mode === "online") {
+    lines.push("Modalità: 💻 Lezione online");
+  } else if (b.mode === "vado_dal_tutor") {
     lines.push(`Modalità: Vado dal tutor${tutorAddress ? ` (${tutorAddress})` : ""}`);
   } else {
     const loc = b.location;

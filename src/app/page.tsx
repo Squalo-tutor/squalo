@@ -51,7 +51,7 @@ export default function Home() {
       <main className="relative z-10 flex flex-1 flex-col items-center justify-center gap-8 px-6 py-12 text-center">
         <div className="max-w-xl">
           <span className="mb-4 inline-block rounded-full border border-white/40 bg-white/15 px-4 py-1.5 text-sm font-semibold text-white backdrop-blur-md">
-            ✨ Ripetizioni · 100% gratis
+            ✨ In presenza o online, vicino a te
           </span>
           <h1 className="font-heading text-4xl font-extrabold leading-tight text-white drop-shadow-sm md:text-5xl">
             Il tuo tutor a due passi.
